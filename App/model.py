@@ -46,12 +46,11 @@ def crear_catalogo():
     return catalogo
 
 def addinstance(catalogo, x):
-    if not om.contains(catalogo["datosusuarios"], str(x["user_id"])+ str(x["track_id"])):
-        om.put(catalogo["datosusuarios"], str(x["user_id"])+ str(x["track_id"]), x)
-    else:
-        om.get(catalogo["datosusuarios"], str(x["user_id"])+ str(x["track_id"]))["value"]["hashtag"] = om.get(catalogo["datosusuarios"], str(x["user_id"])+ str(x["track_id"]))["value"]["hashtag"] + "," + x["hashtag"]
+    om.put(catalogo["datosusuarios"], str(x["user_id"])+ str(x["track_id"]) , x)
+
 def addsong(catalogo, x):
-    om.put(catalogo["datoscanciones"], str(x["user_id"])+ str(x["track_id"]), x)
+    om.put(catalogo["datoscanciones"], str(x["user_id"])+ str(x["track_id"] ), x)
+
 def addfeel(catalogo, x):
     om.put(catalogo["datossentimientos"], str(x["hashtag"]), x)
 
