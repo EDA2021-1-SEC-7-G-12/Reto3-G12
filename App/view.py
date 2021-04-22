@@ -26,6 +26,9 @@ import controller
 from DISClib.ADT import list as lt
 assert cf
 
+default_limit = 1000
+sys.setrecursionlimit(default_limit*10)
+
 
 """
 La vista se encarga de la interacción con el usuario
@@ -48,6 +51,9 @@ def crear_catalogo():
 
 def loaddatos(catalogo):
     return controller.loaddatos(catalogo)
+
+def numerocaracteristicasrango(catalogo,cont,minimo,maximo):
+    return controller.numerocaracteristicasrango(catalogo,cont,minimo,maximo)
 """
 Menu principal
 """
@@ -62,6 +68,8 @@ while True:
         cont=input("Ingrese la característica de contenido deseada: ")
         minimo=float(input("Ingrese el valor minimo de la característica de contenido deseada: "))
         maximo=float(input("Ingrese el valor maximo de la característica de contenido deseada: "))
+        resultado = numerocaracteristicasrango(catalogo,cont,minimo,maximo)
+        print(resultado)
     
     elif int(inputs[0]) == 3:
         minenergy=float(input("Ingrese el valor minimo deseado de la característica Energy: "))

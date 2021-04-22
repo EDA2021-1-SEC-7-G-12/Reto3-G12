@@ -48,7 +48,5 @@ def loadfeelings(catalogo):
     for x in input_file:
         model.addfeel(catalogo, x)
 
-
-# Funciones de ordenamiento
-
-# Funciones de consulta sobre el catálogo
+def numerocaracteristicasrango(catalogo,cont,minimo,maximo):
+    return model.numerocaracteristicasrango(catalogo,cont,minimo,maximo)
