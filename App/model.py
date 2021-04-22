@@ -28,8 +28,8 @@
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
+from DISClib.ADT import orderedmap as om
 from DISClib.DataStructures import mapentry as me
-from DISClib.Algorithms.Sorting import shellsort as sa
 assert cf
 
 """
@@ -38,13 +38,16 @@ los mismos.
 """
 
 # Construccion de modelos
-
+def crear_catalogo():
+    catalogo = {"datosusuarios": om.newMap(),
+                "datoscanciones": om.newMap(),
+                "datossentimientos": om.newMap()}
+    return catalogo
 # Funciones para agregar informacion al catalogo
+def addinstance(catalogo, x):
+    om.put(catalogo["datosusuarios"], str(x["user_id"])+ str(x["created_at"]), x)
+def addsong(catalogo, x):
+    om.put(catalogo["datoscanciones"], str(x["user_id"])+ str(x["track_id"]), x)
+def addfeel(catalogo, x):
+    om.put(catalogo["datossentimientos"], str(x["hashtag"]), x)
 
-# Funciones para creacion de datos
-
-# Funciones de consulta
-
-# Funciones utilizadas para comparar elementos dentro de una lista
-
-# Funciones de ordenamiento

@@ -43,8 +43,11 @@ def printMenu():
     print("5- Estudiar los géneros musicales")
     print("6- Indicar el género musical más escuchado en el tiempo escogido")
 
-catalog = None
+def crear_catalogo():
+    return controller.crear_catalogo()
 
+def loaddatos(catalogo):
+    return controller.loaddatos(catalogo)
 """
 Menu principal
 """
@@ -53,7 +56,8 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-
+        catalogo = crear_catalogo()
+        loaddatos(catalogo)
     elif int(inputs[0]) == 2:
         cont=input("Ingrese la característica de contenido deseada: ")
         minimo=float(input("Ingrese el valor minimo de la característica de contenido deseada: "))

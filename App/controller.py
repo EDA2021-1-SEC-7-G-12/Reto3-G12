@@ -24,14 +24,30 @@ import config as cf
 import model
 import csv
 
+def crear_catalogo():
+    return model.crear_catalogo()
 
-"""
-El controlador se encarga de mediar entre la vista y el modelo.
-"""
+def loaddatos(catalogo):
+    loaduser(catalogo)
+    loadmusic(catalogo)
+    loadfeelings(catalogo)
 
-# Inicialización del Catálogo de libros
+def loaduser(catalogo):
+    userfile = cf.data_dir  + "user_track_hashtag_timestamp-small.csv"
+    input_file = csv.DictReader(open(userfile, encoding='utf-8'))
+    for x in input_file:
+        model.addinstance(catalogo, x)
+def loadmusic(catalogo):
+    musicfile = cf.data_dir + "context_content_features-small.csv"
+    input_file = csv.DictReader(open(musicfile, encoding='utf-8'))
+    for x in input_file:
+        model.addsong(catalogo, x)
+def loadfeelings(catalogo):
+    feelsfile = cf.data_dir + "sentiment_values (2).csv"
+    input_file = csv.DictReader(open(feelsfile, encoding='utf-8'))
+    for x in input_file:
+        model.addfeel(catalogo, x)
 
-# Funciones para la carga de datos
 
 # Funciones de ordenamiento
 
