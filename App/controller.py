@@ -46,6 +46,7 @@ def loadfeelings(catalogo):
     feelsfile = cf.data_dir + "sentiment_values (2).csv"
     input_file = csv.DictReader(open(feelsfile, encoding='utf-8'))
     for x in input_file:
+
         model.addfeel(catalogo, x)
 
 def numerocaracteristicasrango(catalogo,cont,minimo,maximo):

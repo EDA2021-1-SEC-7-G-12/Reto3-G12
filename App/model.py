@@ -46,10 +46,14 @@ def crear_catalogo():
     return catalogo
 
 def addinstance(catalogo, x):
-    om.put(catalogo["datosusuarios"], str(x["user_id"])+ str(x["track_id"]) , x)
+    if not om.contains(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"])):
+        om.put(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"]) , x)
+    else:
+        dato = om.get(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"]))["value"]["hashtag"]
+        dato = dato + "," + x["hashtag"]
 
 def addsong(catalogo, x):
-    om.put(catalogo["datoscanciones"], str(x["user_id"])+ str(x["track_id"] ), x)
+    om.put(catalogo["datoscanciones"], str(x["user_id"]) + str(x["track_id"]), x)
 
 def addfeel(catalogo, x):
     om.put(catalogo["datossentimientos"], str(x["hashtag"]), x)
@@ -63,7 +67,7 @@ def numerocaracteristicasrango(catalogo,cont,minimo,maximo):
         x = lt.getElement(datos,y)
         if (float(x[cont]) >= minimo) and (float(x[cont]) <= maximo):
             if om.contains(catalogo["datosusuarios"], str(x["user_id"]) + str(x["track_id"])):
-                numerotracks += 1
+                numerotracks += om.get(catalogo["datosusuarios"], str(x["user_id"]) + str(x["track_id"]))["value"]["apariciones"]
                 if not lt.isPresent(listartista, x["artist_id"]):
                     lt.addLast(listartista, x["artist_id"])
                     numeroartistas += 1
