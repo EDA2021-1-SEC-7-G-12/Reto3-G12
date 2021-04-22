@@ -71,6 +71,11 @@ while True:
         mintempo=float(input("Ingrese el valor minimo deseado del rango para el tempo: "))
         maxtempo=float(input("Ingrese el valor maximo deseado del rango para el tempo: "))
     
+    elif int(inputs[0]) == 5:
+        pass
+
+    elif int(inputs[0]) == 6:
+        pass
     else:
         sys.exit(0)
 sys.exit(0)
