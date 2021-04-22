@@ -37,7 +37,11 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Caracterizar las reproducciones")
+    print("3- Encontrar música para festejar")
+    print("4- Encontrar música para estudiar")
+    print("5- Estudiar los géneros musicales")
+    print("6- Indicar el género musical más escuchado en el tiempo escogido")
 
 catalog = None
 
@@ -51,8 +55,22 @@ while True:
         print("Cargando información de los archivos ....")
 
     elif int(inputs[0]) == 2:
-        pass
-
+        cont=input("Ingrese la característica de contenido deseada: ")
+        minimo=float(input("Ingrese el valor minimo de la característica de contenido deseada: "))
+        maximo=float(input("Ingrese el valor maximo de la característica de contenido deseada: "))
+    
+    elif int(inputs[0]) == 3:
+        minenergy=float(input("Ingrese el valor minimo deseado de la característica Energy: "))
+        maxenergy=float(input("Ingrese el valor maximo deseado de la característica Energy: "))
+        mindance=float(input("Ingrese el valor minimo deseado de la característica Danceability: "))
+        maxdance=float(input("Ingrese el valor maximo deseado de la característica Danceability: "))
+    
+    elif int(inputs[0]) == 4:
+        mininstrum=float(input("Ingrese el valor minimo deseado del rango para Instrumentalness: "))
+        maxinstrum=float(input("Ingrese el valor maximo deseado del rango para Instrumentalness: "))
+        mintempo=float(input("Ingrese el valor minimo deseado del rango para el tempo: "))
+        maxtempo=float(input("Ingrese el valor maximo deseado del rango para el tempo: "))
+    
     else:
         sys.exit(0)
 sys.exit(0)
