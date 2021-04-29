@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along withthis program.  If not, see <http://www.gnu.org/licenses/>.
  """
-
+import random as rd
 import config as cf
 import sys
 import controller
@@ -54,6 +54,39 @@ def loaddatos(catalogo):
 
 def numerocaracteristicasrango(catalogo,cont,minimo,maximo):
     return controller.numerocaracteristicasrango(catalogo,cont,minimo,maximo)
+
+def numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance):
+    return controller.numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance)
+
+def printresults(resultado):
+    print("Total of unique tracks in events: " + str(resultado[0]))
+    print("\n")
+    print("--- Unique track_id ---")
+    a = rd.randint(1,resultado[1]["size"])
+    b = rd.randint(1,resultado[1]["size"])
+    while a == b:
+        b = rd.randint(1,resultado[1]["size"])
+    c = rd.randint(1,resultado[1]["size"])
+    while c == b or c == a:
+        c = rd.randint(1,resultado[1]["size"])
+    d = rd.randint(1,resultado[1]["size"])
+    while d == c or d == b or d == a:
+        d = rd.randint(1,resultado[1]["size"])
+    e = rd.randint(1,resultado[1]["size"])
+    while e == d or e == c or e == b or e == a:
+        e = rd.randint(1,resultado[1]["size"])
+    c1 = lt.getElement(resultado[1],a)
+    c2 = lt.getElement(resultado[1],b)
+    c3 = lt.getElement(resultado[1],c)
+    c4 = lt.getElement(resultado[1],d)
+    c5 = lt.getElement(resultado[1],e)
+    print("Track 1: " + c1["track_id"] + " with energy of " + str(c1["energy"]) + " and danceability of " + str(c1["danceability"]))
+    print("Track 2: " + c2["track_id"] + " with energy of " + str(c2["energy"]) + " and danceability of " + str(c2["danceability"]))
+    print("Track 3: " + c3["track_id"] + " with energy of " + str(c3["energy"]) + " and danceability of " + str(c3["danceability"]))
+    print("Track 4: " + c4["track_id"] + " with energy of " + str(c4["energy"]) + " and danceability of " + str(c4["danceability"]))
+    print("Track 5: " + c5["track_id"] + " with energy of " + str(c5["energy"]) + " and danceability of " + str(c5["danceability"]))
+    
+    
 """
 Menu principal
 """
@@ -69,6 +102,7 @@ while True:
         minimo=float(input("Ingrese el valor minimo de la característica de contenido deseada: "))
         maximo=float(input("Ingrese el valor maximo de la característica de contenido deseada: "))
         resultado = numerocaracteristicasrango(catalogo,cont,minimo,maximo)
+        
         print(resultado)
     
     elif int(inputs[0]) == 3:
@@ -76,7 +110,11 @@ while True:
         maxenergy=float(input("Ingrese el valor maximo deseado de la característica Energy: "))
         mindance=float(input("Ingrese el valor minimo deseado de la característica Danceability: "))
         maxdance=float(input("Ingrese el valor maximo deseado de la característica Danceability: "))
-    
+        print("Obteniendo tracks...")
+        resultado = numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance)
+        print("Energy is between " + str(minenergy) + " and " + str(maxenergy) + ".")
+        print("Danceability is between " + str(mindance) + " and " + str(maxdance) + ".")
+        printresults(resultado)
     elif int(inputs[0]) == 4:
         mininstrum=float(input("Ingrese el valor minimo deseado del rango para Instrumentalness: "))
         maxinstrum=float(input("Ingrese el valor maximo deseado del rango para Instrumentalness: "))

@@ -46,14 +46,14 @@ def crear_catalogo():
     return catalogo
 
 def addinstance(catalogo, x):
-    if not om.contains(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"])):
-        om.put(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"]) , x)
+    if not om.contains(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"]) + str(x["created_at"]) ):
+        om.put(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"]) + str(x["created_at"]), x)
     else:
-        dato = om.get(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"]))["value"]["hashtag"]
+        dato = om.get(catalogo["datosusuarios"], str(x["user_id"])+  str(x["track_id"]) + str(x["created_at"]))["value"]["hashtag"]
         dato = dato + "," + x["hashtag"]
 
 def addsong(catalogo, x):
-    om.put(catalogo["datoscanciones"], str(x["user_id"]) + str(x["track_id"]), x)
+    om.put(catalogo["datoscanciones"], str(x["user_id"]) + str(x["track_id"]) + str(x["created_at"]), x)
 
 def addfeel(catalogo, x):
     om.put(catalogo["datossentimientos"], str(x["hashtag"]), x)
@@ -66,9 +66,23 @@ def numerocaracteristicasrango(catalogo,cont,minimo,maximo):
     for y in range(datos["size"]):
         x = lt.getElement(datos,y)
         if (float(x[cont]) >= minimo) and (float(x[cont]) <= maximo):
-            if om.contains(catalogo["datosusuarios"], str(x["user_id"]) + str(x["track_id"])):
-                numerotracks += om.get(catalogo["datosusuarios"], str(x["user_id"]) + str(x["track_id"]))["value"]["apariciones"]
+            if om.contains(catalogo["datosusuarios"], str(x["user_id"]) + str(x["track_id"]) + str(x["created_at"])):
+                numerotracks += 1
                 if not lt.isPresent(listartista, x["artist_id"]):
                     lt.addLast(listartista, x["artist_id"])
                     numeroartistas += 1
     return numerotracks, numeroartistas
+
+def numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance):
+    numerotracks = 0
+    listracks = lt.newList("ARRAY_LIST")
+    data = om.valueSet(catalogo["datoscanciones"])
+    trackmap = mp.newMap(1000000, maptype="PROBING")
+    for x in range(data["size"]):
+        y = lt.getElement(data, x)
+        if not mp.contains(trackmap, y["track_id"]):
+            if (minenergy <= float(y["energy"]) <= maxenergy) and (mindance <= float(y["danceability"]) <= maxdance):
+                lt.addLast(listracks, y)
+                numerotracks += 1
+                mp.put(trackmap, y["track_id"], None)
+    return numerotracks, listracks

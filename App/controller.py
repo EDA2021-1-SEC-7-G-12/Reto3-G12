@@ -51,3 +51,6 @@ def loadfeelings(catalogo):
 
 def numerocaracteristicasrango(catalogo,cont,minimo,maximo):
     return model.numerocaracteristicasrango(catalogo,cont,minimo,maximo)
+
+def numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance):
+    return model.numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance)
