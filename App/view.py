@@ -88,6 +88,34 @@ def printresults(resultado):
     print("Track 3: " + c3["track_id"] + " with energy of " + str(c3["energy"]) + " and danceability of " + str(c3["danceability"]))
     print("Track 4: " + c4["track_id"] + " with energy of " + str(c4["energy"]) + " and danceability of " + str(c4["danceability"]))
     print("Track 5: " + c5["track_id"] + " with energy of " + str(c5["energy"]) + " and danceability of " + str(c5["danceability"]))
+
+def printresults2(resultado):
+    print("Total of unique tracks in events: " + str(resultado[0]))
+    print("\n")
+    print("--- Unique track_id ---")
+    a = rd.randint(1,resultado[1]["size"])
+    b = rd.randint(1,resultado[1]["size"])
+    while a == b:
+        b = rd.randint(1,resultado[1]["size"])
+    c = rd.randint(1,resultado[1]["size"])
+    while c == b or c == a:
+        c = rd.randint(1,resultado[1]["size"])
+    d = rd.randint(1,resultado[1]["size"])
+    while d == c or d == b or d == a:
+        d = rd.randint(1,resultado[1]["size"])
+    e = rd.randint(1,resultado[1]["size"])
+    while e == d or e == c or e == b or e == a:
+        e = rd.randint(1,resultado[1]["size"])
+    c1 = lt.getElement(resultado[1],a)
+    c2 = lt.getElement(resultado[1],b)
+    c3 = lt.getElement(resultado[1],c)
+    c4 = lt.getElement(resultado[1],d)
+    c5 = lt.getElement(resultado[1],e)
+    print("Track 1: " + c1["track_id"] + " with instrumentalness of " + str(c1["instrumentalness"]) + " and tempo of " + str(c1["tempo"]))
+    print("Track 2: " + c2["track_id"] + " with instrumentalness of " + str(c2["instrumentalness"]) + " and tempo of " + str(c2["tempo"]))
+    print("Track 3: " + c3["track_id"] + " with instrumentalness of " + str(c3["instrumentalness"]) + " and tempo of " + str(c3["tempo"]))
+    print("Track 4: " + c4["track_id"] + " with instrumentalness of " + str(c4["instrumentalness"]) + " and tempo of " + str(c4["tempo"]))
+    print("Track 5: " + c5["track_id"] + " with instrumentalness of " + str(c5["instrumentalness"]) + " and tempo of " + str(c5["tempo"]))
     
     
 """
@@ -128,7 +156,7 @@ while True:
         resultado = numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo)
         print("Instrumentalness is between " + str(mininstrum) + " and " + str(maxinstrum) + ".")
         print("Tempo is between " + str(mintempo) + " and " + str(maxtempo) + ".")
-        printresults(resultado)
+        printresults2(resultado)
 
     elif int(inputs[0]) == 5:
         pass
