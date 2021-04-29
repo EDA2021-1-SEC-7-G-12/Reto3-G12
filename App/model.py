@@ -86,3 +86,17 @@ def numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance):
                 numerotracks += 1
                 mp.put(trackmap, y["track_id"], None)
     return numerotracks, listracks
+
+def numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo):
+    numerotracks = 0
+    listracks = lt.newList("ARRAY_LIST")
+    data = om.valueSet(catalogo["datoscanciones"])
+    trackmap = mp.newMap(1000000, maptype="PROBING")
+    for x in range(data["size"]):
+        y = lt.getElement(data, x)
+        if not mp.contains(trackmap, y["track_id"]):
+            if (mininstrum <= float(y["instrumentalness"]) <= maxinstrum) and (mintempo <= float(y["tempo"]) <= maxtempo):
+                lt.addLast(listracks, y)
+                numerotracks += 1
+                mp.put(trackmap, y["track_id"], None)
+    return numerotracks, listracks

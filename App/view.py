@@ -58,6 +58,9 @@ def numerocaracteristicasrango(catalogo,cont,minimo,maximo):
 def numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance):
     return controller.numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance)
 
+def numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo):
+    return controller.numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo)
+
 def printresults(resultado):
     print("Total of unique tracks in events: " + str(resultado[0]))
     print("\n")
@@ -97,12 +100,12 @@ while True:
         print("Cargando información de los archivos ....")
         catalogo = crear_catalogo()
         loaddatos(catalogo)
+    
     elif int(inputs[0]) == 2:
         cont=input("Ingrese la característica de contenido deseada: ")
         minimo=float(input("Ingrese el valor minimo de la característica de contenido deseada: "))
         maximo=float(input("Ingrese el valor maximo de la característica de contenido deseada: "))
         resultado = numerocaracteristicasrango(catalogo,cont,minimo,maximo)
-        
         print(resultado)
     
     elif int(inputs[0]) == 3:
@@ -115,12 +118,18 @@ while True:
         print("Energy is between " + str(minenergy) + " and " + str(maxenergy) + ".")
         print("Danceability is between " + str(mindance) + " and " + str(maxdance) + ".")
         printresults(resultado)
+    
     elif int(inputs[0]) == 4:
         mininstrum=float(input("Ingrese el valor minimo deseado del rango para Instrumentalness: "))
         maxinstrum=float(input("Ingrese el valor maximo deseado del rango para Instrumentalness: "))
         mintempo=float(input("Ingrese el valor minimo deseado del rango para el tempo: "))
         maxtempo=float(input("Ingrese el valor maximo deseado del rango para el tempo: "))
-    
+        print("Obteniendo tracks...")
+        resultado = numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo)
+        print("Instrumentalness is between " + str(mininstrum) + " and " + str(maxinstrum) + ".")
+        print("Tempo is between " + str(mintempo) + " and " + str(maxtempo) + ".")
+        printresults(resultado)
+
     elif int(inputs[0]) == 5:
         pass
 

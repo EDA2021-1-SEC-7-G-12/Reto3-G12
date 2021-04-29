@@ -43,7 +43,7 @@ def loadmusic(catalogo):
     for x in input_file:
         model.addsong(catalogo, x)
 def loadfeelings(catalogo):
-    feelsfile = cf.data_dir + "sentiment_values (2).csv"
+    feelsfile = cf.data_dir + "sentiment_values.csv"
     input_file = csv.DictReader(open(feelsfile, encoding='utf-8'))
     for x in input_file:
 
@@ -54,3 +54,6 @@ def numerocaracteristicasrango(catalogo,cont,minimo,maximo):
 
 def numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance):
     return model.numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance)
+
+def numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo):
+    return model.numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo)
