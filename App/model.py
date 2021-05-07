@@ -138,10 +138,10 @@ def tracksgeneros(catalogo,listabusqueda):
     for x in range(lt.size(listabusqueda)):
         genero = lt.getElement(listabusqueda,x)
         if not mp.contains(catalogo["mapageneros"],genero):
-            respuesta = input("El género " + genero + " no está en la lista de géneros, desea añadirlo? (y/n)")
+            respuesta = input("El género " + genero + " no está en la lista de géneros, desea añadirlo? (y/n): ")
             if respuesta == "y":
-                minimo = int(input("Ingrese el tempo mínimo"))
-                maximo = int(input("Ingrese el tempo máximo"))
+                minimo = int(input("Ingrese el tempo mínimo: "))
+                maximo = int(input("Ingrese el tempo máximo: "))
                 mp.put(catalogo["mapageneros"],genero,(minimo,maximo))
                 print("Género añadido.")
                 lt.addLast(nuevalistabusqueda,genero)
