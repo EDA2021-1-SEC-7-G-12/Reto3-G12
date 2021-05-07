@@ -24,6 +24,7 @@ import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
 assert cf
 
 default_limit = 1000
@@ -60,6 +61,9 @@ def numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance):
 
 def numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo):
     return controller.numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo)
+
+def tracksgeneros(catalogo,listabusqueda):
+    return controller.tracksgeneros(catalogo,listabusqueda)
 
 def printresults(resultado):
     print("Total of unique tracks in events: " + str(resultado[0]))
@@ -117,7 +121,22 @@ def printresults2(resultado):
     print("Track 4: " + c4["track_id"] + " with instrumentalness of " + str(c4["instrumentalness"]) + " and tempo of " + str(c4["tempo"]))
     print("Track 5: " + c5["track_id"] + " with instrumentalness of " + str(c5["instrumentalness"]) + " and tempo of " + str(c5["tempo"]))
     
-    
+def printgeneros(tracksgeneros,catalogo):
+    print("Total of reproductions: " + str(lt.getElement(tracksgeneros,1)))
+    print("\n")
+    for x in range(2,lt.size(tracksgeneros)+1):
+        datosgenero = lt.getElement(tracksgeneros,x)
+        nombre = datosgenero[0]
+        minmax = mp.get(catalogo["mapageneros"],nombre)["value"]
+        print("======== " + nombre  + " ========")
+        print("For " + nombre + " the tempo is between " + str(minmax[0]) + " and " + str(minmax[1]) + " BPM")
+        print(nombre + " reproductions: " + str(datosgenero[1][0])+ " with " + str(datosgenero[1][1]) + " different artists.")
+        print("----- Some artists for " + nombre + " -----")
+        for y in range(1,11):
+            print("Artist " + str(y) + ": " + lt.getElement(datosgenero[1][2],y))
+        print("\n")
+
+
 """
 Menu principal
 """
@@ -159,8 +178,16 @@ while True:
         printresults2(resultado)
 
     elif int(inputs[0]) == 5:
-        pass
-
+        listando = True
+        listabusqueda = lt.newList("ARRAY_LIST")
+        while listando:
+            genero = input("Ingrese un género que quiere buscar, si quiere parar de ingresar géneros deje vacío el espacio: ")
+            if genero != "":
+                lt.addLast(listabusqueda,genero)
+            else:
+                listando = False
+        tracksgeneros  = tracksgeneros(catalogo,listabusqueda)
+        printgeneros(tracksgeneros,catalogo)
     elif int(inputs[0]) == 6:
         pass
     else:

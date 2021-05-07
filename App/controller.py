@@ -31,6 +31,10 @@ def loaddatos(catalogo):
     loaduser(catalogo)
     loadmusic(catalogo)
     loadfeelings(catalogo)
+    loadgeneros(catalogo)
+
+def loadgeneros(catalogo):
+    model.loadgeneros(catalogo)
 
 def loaduser(catalogo):
     userfile = cf.data_dir  + "user_track_hashtag_timestamp-small.csv"
@@ -57,3 +61,6 @@ def numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance):
 
 def numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo):
     return model.numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo)
+
+def tracksgeneros(catalogo,listabusqueda):
+    return model.tracksgeneros(catalogo,listabusqueda)
