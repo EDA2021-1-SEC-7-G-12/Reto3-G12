@@ -188,7 +188,15 @@ def datoshoras(catalogo,hora_min,hora_max):
         lt.addLast(listapasortearhashtags, (song,hashtags(song,catalogo),vaderprom(catalogo, hashtags(song,catalogo))))
     songhashsort = ms.sort(listapasortearhashtags, comphashtags)
     lista10 = lt.subList(songhashsort, 1, 10)
+    print(generosorteados)
+    print("-------------------------------------------------")
+    print(songsgeneros)
+    print("-------------------------------------------------")
+    print(numrep)
+    print("-------------------------------------------------")
+    print(lista10)
     return generosorteados,songsgeneros,numrep, lista10 
+
 
 
 
