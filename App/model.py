@@ -182,11 +182,26 @@ def datoshoras(catalogo,hora_min,hora_max):
     generosorteados = ms.sort(generosrep, compgeneros)
     generomax = lt.getElement(generosorteados, 1)[0]
     listamax = mp.get(songsgeneros,generomax)["value"]
-    listapasortearhashtags = lt.newList("ARRAY_LIST")  
+    listapasortearhashtags = lt.newList("ARRAY_LIST")
+    dataa = om.valueSet(catalogo["datosusuarios"])
+    maptags = mp.newMap(100000, maptype="PROBING")
+    for x in range(lt.size(dataa)):
+        listen = lt.getElement(dataa,x)
+        created = listen["created_at"]
+        if  (int(created[-8]+created[-7]) >= int(hora_min.split(":")[0])) and (int(created[-5]+created[-4]) >= int(hora_min.split(":")[1])) and (int(created[-8]+created[-7]) <= int(hora_max.split(":")[0])) and (int(created[-5]+created[-4]) <= int(hora_max.split(":")[1])):
+            if mp.contains(maptags, listen["track_id"]):
+                if not lt.isPresent(mp.get(maptags, listen["track_id"])["value"], listen["hashtag"]):
+                    lt.addLast(mp.get(maptags, listen["track_id"])["value"], listen["hashtag"])
+            else:
+                mp.put(maptags,listen["track_id"],lt.newList("ARRAY_LIST"))
+            lt.addLast(mp.get(maptags, listen["track_id"])["value"], listen["hashtag"])
+    listaidsusados = lt.newList("ARRAY_LIST")
     for x in range(lt.size(listamax)):
         song = lt.getElement(listamax, x)
-        lt.addLast(listapasortearhashtags, (song,hashtags(song,catalogo),vaderprom(catalogo, hashtags(song,catalogo))))
-    songhashsort = ms.sort(listapasortearhashtags, comphashtags)
+        if not lt.isPresent(listaidsusados,song["track_id"]):
+            lt.addLast(listapasortearhashtags, (song,vaderprom(catalogo, mp.get(maptags,song["track_id"])["value"])[1],vaderprom(catalogo, mp.get(maptags,song["track_id"])["value"])[0]))
+            lt.addLast(listaidsusados,song["track_id"])
+    songhashsort = ms.sort(listapasortearhashtags, compgeneros)
     lista10 = lt.subList(songhashsort, 1, 10)
     return generosorteados,songsgeneros,numrep, lista10 
 
@@ -205,32 +220,26 @@ def checkgeneros(cancion,listageneros):
             lt.addLast(listageneros2, rango)
     return listageneros2
 
-def hashtags(song,catalogo):
-    listahashtags = lt.newList("ARRAY_LIST")
-    data = om.valueSet(catalogo["datosusuarios"])
-    for x in range(lt.size(data)):
-        listen = lt.getElement(data,x)
-        if listen["track_id"] == song["track_id"]:
-            lt.addLast(listahashtags, listen["hashtag"])
-    return listahashtags
 
 def comphashtags(h1,h2):
     return lt.size(h1[1]) > lt.size(h2[1])
 
 def vaderprom(catalogo,hashtags):
+    tagsusados = lt.newList("ARRAY_LIST")
     vaders = 0
     totalvaders = 0
-    data = om.valueSet(catalogo["datossentimientos"])
+    data = catalogo["datossentimientos"]
     for x in range(lt.size(hashtags)):
-        tag = lt.getElement(hashtags, x)
-        for y in range(lt.size(data)):
-            feels = lt.getElement(data,y)
-            if feels["hashtag"] == tag:
-                if not feels["vader_avg"] == "":
+        tag = lt.getElement(hashtags, x).lower()
+        if not lt.isPresent(tagsusados,tag):
+            if(om.contains(data,tag)):
+                dato = om.get(data,tag)["value"]
+                if dato["vader_avg"] != "":
                     vaders += 1
-                    totalvaders += float(feels["vader_avg"])
+                    totalvaders += float(dato["vader_avg"])
+            lt.addLast(tagsusados,tag)
     if not vaders == 0:
-        return round(totalvaders/vaders,1)
+        return round(totalvaders/vaders,1),lt.size(tagsusados)
     else:
-        return None
+        return None,lt.size(tagsusados)
 

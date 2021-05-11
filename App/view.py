@@ -156,7 +156,7 @@ def printhoras(datoshoras,catalogo,hora_min,hora_max):
     print("The first TOP 10 tracks are: ")
     for x in range(1,11):
         dato = lt.getElement(datoshoras[3], x)
-        print("TOP " + str(x) + " Track: " + str(dato[0]["track_id"]) + " with" + str(lt.size(dato[1])) + "hashtags and VADER = " + str(dato[2]))
+        print("TOP " + str(x) + " Track: " + str(dato[0]["track_id"]) + " with " + str(dato[1]) + " hashtags and VADER = " + str(dato[2]))
     print("\n")
 def rangoagenero(catalogo,rango):
     data = catalogo["mapageneros"]
