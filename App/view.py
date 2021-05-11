@@ -143,22 +143,28 @@ def printgeneros(tracksgeneros,catalogo):
         print("\n")
 
 
-"""
+
 def printhoras(datoshoras,catalogo,hora_min,hora_max):
-
-    print("There is a total of " + str(lt.getElement(datoshoras,1)) + " reproductions between " + str(hora_min) + " and " + str(hora_max))
+    print("\n")
+    print("There is a total of " + str(datoshoras[2]) + " reproductions between " + str(hora_min) + " and " + str(hora_max))
     print("======================" + "GENRES SORTED REPRODUCTIONS"  + "======================")
-    for y in range(1,11):
-            print("TOP " + str(y) + ": " + lt.getElement(datoshoras[1][2],y) " with " + + " reps.")
-        print("\n")
-
-    print("The TOP GENRE is " + + " with " + + " reproductions.")
-    print("======================" + + " SENTIMENT ANALYSIS" + "======================")
-    print(+ + " has "+ + " unique tracks...")
+    for y in range(1,10):
+        print("TOP " + str(y) + ": " + str(rangoagenero(catalogo,lt.getElement(datoshoras[0], y)[0])) + " with " + str(lt.getElement(datoshoras[0], y)[1]) + " reps.")
+    print("The TOP GENRE is " + str(rangoagenero(catalogo,lt.getElement(datoshoras[0], 1)[0])) + " with " + str(lt.getElement(datoshoras[0], 1)[1]) + " reproductions.")
+    print("======================" +  " SENTIMENT ANALYSIS" + "======================")
+    print(str(rangoagenero(catalogo,lt.getElement(datoshoras[0], 1)[0])) + " has "+ str(lt.size(mp.get(datoshoras[1],lt.getElement(datoshoras[0], 1)[0])["value"]))+ " unique tracks...")
     print("The first TOP 10 tracks are: ")
-    print("TOP 1 Track: " + + " with" + + "hashtags and VADER=" +)
-    """
-
+    for x in range(1,11):
+        dato = lt.getElement(datoshoras[3], x)
+        print("TOP " + str(x) + " Track: " + str(dato[0]["track_id"]) + " with" + str(lt.size(dato[1])) + "hashtags and VADER = " + str(dato[2]))
+    print("\n")
+def rangoagenero(catalogo,rango):
+    data = catalogo["mapageneros"]
+    values = mp.valueSet(data)
+    keys = mp.keySet(data)
+    for x in range(lt.size(keys)):
+        if lt.getElement(values, x) == rango:
+             return lt.getElement(keys, x)
 
 """
 Menu principal
