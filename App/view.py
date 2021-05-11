@@ -72,27 +72,27 @@ def datoshoras(catalogo,hora_min,hora_max):
     return controller.datoshoras(catalogo,hora_min,hora_max)
 
 def printresults(resultado):
-    print("Total of unique tracks in events: " + str(resultado[0]))
+    print("Total of unique tracks in events: " + str(resultado[0][0]))
     print("\n")
     print("--- Unique track_id ---")
-    a = rd.randint(1,resultado[1]["size"])
-    b = rd.randint(1,resultado[1]["size"])
+    a = rd.randint(1,resultado[0][0])
+    b = rd.randint(1,resultado[0][0])
     while a == b:
-        b = rd.randint(1,resultado[1]["size"])
-    c = rd.randint(1,resultado[1]["size"])
+        b = rd.randint(1,resultado[0][0])
+    c = rd.randint(1,resultado[0][0])
     while c == b or c == a:
-        c = rd.randint(1,resultado[1]["size"])
-    d = rd.randint(1,resultado[1]["size"])
+        c = rd.randint(1,resultado[0][0])
+    d = rd.randint(1,resultado[0][0])
     while d == c or d == b or d == a:
-        d = rd.randint(1,resultado[1]["size"])
-    e = rd.randint(1,resultado[1]["size"])
+        d = rd.randint(1,resultado[0][0])
+    e = rd.randint(1,resultado[0][0])
     while e == d or e == c or e == b or e == a:
-        e = rd.randint(1,resultado[1]["size"])
-    c1 = lt.getElement(resultado[1],a)
-    c2 = lt.getElement(resultado[1],b)
-    c3 = lt.getElement(resultado[1],c)
-    c4 = lt.getElement(resultado[1],d)
-    c5 = lt.getElement(resultado[1],e)
+        e = rd.randint(1,resultado[0][0])
+    c1 = lt.getElement(resultado[0][1],a)
+    c2 = lt.getElement(resultado[0][1],b)
+    c3 = lt.getElement(resultado[0][1],c)
+    c4 = lt.getElement(resultado[0][1],d)
+    c5 = lt.getElement(resultado[0][1],e)
     print("Track 1: " + c1["track_id"] + " with energy of " + str(c1["energy"]) + " and danceability of " + str(c1["danceability"]))
     print("Track 2: " + c2["track_id"] + " with energy of " + str(c2["energy"]) + " and danceability of " + str(c2["danceability"]))
     print("Track 3: " + c3["track_id"] + " with energy of " + str(c3["energy"]) + " and danceability of " + str(c3["danceability"]))
@@ -100,27 +100,27 @@ def printresults(resultado):
     print("Track 5: " + c5["track_id"] + " with energy of " + str(c5["energy"]) + " and danceability of " + str(c5["danceability"]))
 
 def printresults2(resultado):
-    print("Total of unique tracks in events: " + str(resultado[0]))
+    print("Total of unique tracks in events: " + str(resultado[0][0]))
     print("\n")
     print("--- Unique track_id ---")
-    a = rd.randint(1,resultado[1]["size"])
-    b = rd.randint(1,resultado[1]["size"])
+    a = rd.randint(1,resultado[0][0])
+    b = rd.randint(1,resultado[0][0])
     while a == b:
-        b = rd.randint(1,resultado[1]["size"])
-    c = rd.randint(1,resultado[1]["size"])
+        b = rd.randint(1,resultado[0][0])
+    c = rd.randint(1,resultado[0][0])
     while c == b or c == a:
-        c = rd.randint(1,resultado[1]["size"])
-    d = rd.randint(1,resultado[1]["size"])
+        c = rd.randint(1,resultado[0][0])
+    d = rd.randint(1,resultado[0][0])
     while d == c or d == b or d == a:
-        d = rd.randint(1,resultado[1]["size"])
-    e = rd.randint(1,resultado[1]["size"])
+        d = rd.randint(1,resultado[0][0])
+    e = rd.randint(1,resultado[0][0])
     while e == d or e == c or e == b or e == a:
-        e = rd.randint(1,resultado[1]["size"])
-    c1 = lt.getElement(resultado[1],a)
-    c2 = lt.getElement(resultado[1],b)
-    c3 = lt.getElement(resultado[1],c)
-    c4 = lt.getElement(resultado[1],d)
-    c5 = lt.getElement(resultado[1],e)
+        e = rd.randint(1,resultado[0][0])
+    c1 = lt.getElement(resultado[0][1],a)
+    c2 = lt.getElement(resultado[0][1],b)
+    c3 = lt.getElement(resultado[0][1],c)
+    c4 = lt.getElement(resultado[0][1],d)
+    c5 = lt.getElement(resultado[0][1],e)
     print("Track 1: " + c1["track_id"] + " with instrumentalness of " + str(c1["instrumentalness"]) + " and tempo of " + str(c1["tempo"]))
     print("Track 2: " + c2["track_id"] + " with instrumentalness of " + str(c2["instrumentalness"]) + " and tempo of " + str(c2["tempo"]))
     print("Track 3: " + c3["track_id"] + " with instrumentalness of " + str(c3["instrumentalness"]) + " and tempo of " + str(c3["tempo"]))
@@ -158,6 +158,8 @@ def printhoras(datoshoras,catalogo,hora_min,hora_max):
         dato = lt.getElement(datoshoras[3], x)
         print("TOP " + str(x) + " Track: " + str(dato[0]["track_id"]) + " with " + str(dato[1]) + " hashtags and VADER = " + str(dato[2]))
     print("\n")
+
+
 def rangoagenero(catalogo,rango):
     data = catalogo["mapageneros"]
     values = mp.valueSet(data)
@@ -175,14 +177,21 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
         catalogo = crear_catalogo()
-        loaddatos(catalogo)
+        datos=loaddatos(catalogo)
+        print("Tiempo [ms]: ", f"{datos[1]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{datos[0]:.3f}")
     
     elif int(inputs[0]) == 2:
         cont=input("Ingrese la característica de contenido deseada: ")
         minimo=float(input("Ingrese el valor minimo de la característica de contenido deseada: "))
         maximo=float(input("Ingrese el valor maximo de la característica de contenido deseada: "))
         resultado = numerocaracteristicasrango(catalogo,cont,minimo,maximo)
-        print(resultado)
+        print("\n")
+        print("++++++ Req No. 1 results... ++++++")
+        print(str(cont) + " is between " + str(minimo) + " and " + str(maximo))
+        print("Total of reproductions: " + str(resultado[0][0])+ " Total of unique artists: " + str(resultado[0][1]))
+        print("Tiempo [ms]: ", f"{resultado[2]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{resultado[1]:.3f}")
     
     elif int(inputs[0]) == 3:
         minenergy=float(input("Ingrese el valor minimo deseado de la característica Energy: "))
@@ -190,10 +199,14 @@ while True:
         mindance=float(input("Ingrese el valor minimo deseado de la característica Danceability: "))
         maxdance=float(input("Ingrese el valor maximo deseado de la característica Danceability: "))
         print("Obteniendo tracks...")
+        print("\n")
+        print("++++++ Req No. 2 results... ++++++")
         resultado = numerotracksenergydance(catalogo,minenergy,maxenergy,mindance,maxdance)
         print("Energy is between " + str(minenergy) + " and " + str(maxenergy) + ".")
         print("Danceability is between " + str(mindance) + " and " + str(maxdance) + ".")
         printresults(resultado)
+        print("Tiempo [ms]: ", f"{resultado[2]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{resultado[1]:.3f}") 
     
     elif int(inputs[0]) == 4:
         mininstrum=float(input("Ingrese el valor minimo deseado del rango para Instrumentalness: "))
@@ -201,12 +214,18 @@ while True:
         mintempo=float(input("Ingrese el valor minimo deseado del rango para el tempo: "))
         maxtempo=float(input("Ingrese el valor maximo deseado del rango para el tempo: "))
         print("Obteniendo tracks...")
+        print("\n")
+        print("++++++ Req No. 3 results... ++++++")
         resultado = numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo)
         print("Instrumentalness is between " + str(mininstrum) + " and " + str(maxinstrum) + ".")
         print("Tempo is between " + str(mintempo) + " and " + str(maxtempo) + ".")
         printresults2(resultado)
+        print("Tiempo [ms]: ", f"{resultado[2]:.3f}", "  ||  ",
+              "Memoria [kB]: ", f"{resultado[1]:.3f}") 
 
     elif int(inputs[0]) == 5:
+        print("\n")
+        print("++++++ Req No. 4 results... ++++++")
         listando = True
         listabusqueda = lt.newList("ARRAY_LIST")
         while listando:
@@ -217,12 +236,13 @@ while True:
                 listando = False
         tracksgeneros  = tracksgeneros(catalogo,listabusqueda)
         printgeneros(tracksgeneros,catalogo)
-
+    
     elif int(inputs[0]) == 6:
         hora_min = input("Indique la hora y los minutos mínima en hora militar (ej: 13:00): ")
         hora_max = input("Indique la hora y los minutos máximos en hora militar (ej: 13:00): ")
         datoshoras = datoshoras(catalogo,hora_min,hora_max)
         printhoras(datoshoras,catalogo,hora_min,hora_max)
+
     else:
         sys.exit(0)
 sys.exit(0)
