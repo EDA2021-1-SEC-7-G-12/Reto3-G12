@@ -64,3 +64,6 @@ def numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo):
 
 def tracksgeneros(catalogo,listabusqueda):
     return model.tracksgeneros(catalogo,listabusqueda)
+
+def datoshoras(catalogo,hora_min,hora_max):
+    return model.datoshoras(catalogo,hora_min,hora_max)

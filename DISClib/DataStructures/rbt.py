@@ -200,7 +200,7 @@ def keySet(rbt):
         Exception
     """
     try:
-        klist = lt.newList('SINGLE_LINKED', rbt['cmpfunction'])
+        klist = lt.newList("ARRAY_LIST", rbt['cmpfunction'])
         klist = keySetTree(rbt['root'], klist)
         return klist
     except Exception as exp:

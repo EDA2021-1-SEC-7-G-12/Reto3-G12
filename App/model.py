@@ -31,6 +31,7 @@ from DISClib.ADT import map as mp
 from DISClib.ADT import orderedmap as om
 from DISClib.DataStructures import mapentry as me
 from DISClib.DataStructures import rbt
+from DISClib.Algorithms.Sorting import mergesort as ms 
 import random as rd
 assert cf
 
@@ -140,8 +141,8 @@ def tracksgeneros(catalogo,listabusqueda):
         if not mp.contains(catalogo["mapageneros"],genero):
             respuesta = input("El género " + genero + " no está en la lista de géneros, desea añadirlo? (y/n): ")
             if respuesta == "y":
-                minimo = int(input("Ingrese el tempo mínimo: "))
-                maximo = int(input("Ingrese el tempo máximo: "))
+                minimo = float(input("Ingrese el tempo mínimo: "))
+                maximo = float(input("Ingrese el tempo máximo: "))
                 mp.put(catalogo["mapageneros"],genero,(minimo,maximo))
                 print("Género añadido.")
                 lt.addLast(nuevalistabusqueda,genero)
@@ -155,3 +156,80 @@ def tracksgeneros(catalogo,listabusqueda):
         genero = lt.getElement(nuevalistabusqueda,x)
         lt.addLast(listaresultados,(genero,numerocaracteristicasrango2(catalogo,"tempo",mp.get(catalogo["mapageneros"],genero)["value"][0],mp.get(catalogo["mapageneros"],genero)["value"][1])))
     return listaresultados
+
+def datoshoras(catalogo,hora_min,hora_max):
+    generos = mp.keySet(catalogo["mapageneros"])
+    songs = catalogo["datoscanciones"]
+    datakeys = om.keySet(songs)
+    songsgeneros = mp.newMap(20, maptype="PROBING")
+    for x in range(lt.size(generos)):
+        genero = lt.getElement(generos, x)
+        mp.put(songsgeneros,mp.get(catalogo["mapageneros"],genero)["value"],lt.newList("ARRAY_LIST"))
+    numrep = 0
+    listageneros = mp.keySet(songsgeneros)
+    for x in range(datakeys["size"]):
+        key = lt.getElement(datakeys, x)
+        if  (int(key[-8]+key[-7]) >= int(hora_min.split(":")[0])) and (int(key[-5]+key[-4]) >= int(hora_min.split(":")[1])) and (int(key[-8]+key[-7]) <= int(hora_max.split(":")[0])) and (int(key[-5]+key[-4]) <= int(hora_max.split(":")[1])):
+            generosong = checkgeneros(om.get(songs,key)["value"], listageneros)
+            for y in range(lt.size(generosong)):
+                llavegenero = lt.getElement(generosong, y)
+                lt.addLast(mp.get(songsgeneros,(llavegenero))["value"],om.get(songs,key)["value"])
+            numrep += 1
+    generosrep = lt.newList("ARRAY_LIST")
+    for x in range(lt.size(listageneros)):
+        generooo = lt.getElement(listageneros,x)
+        lt.addLast(generosrep,(generooo ,lt.size(mp.get(songsgeneros,generooo)["value"])))
+    generosorteados = ms.sort(generosrep, compgeneros)
+    generomax = lt.getElement(generosorteados, 1)[0]
+    listamax = mp.get(songsgeneros,generomax)["value"]
+    listapasortearhashtags = lt.newList("ARRAY_LIST")  
+    for x in range(lt.size(listamax)):
+        song = lt.getElement(listamax, x)
+        lt.addLast(listapasortearhashtags, (song,hashtags(song,catalogo),vaderprom(catalogo, hashtags(song,catalogo))))
+    songhashsort = ms.sort(listapasortearhashtags, comphashtags)
+    lista10 = lt.subList(songhashsort, 1, 10)
+    return generosorteados,songsgeneros,numrep, lista10 
+
+
+
+
+def compgeneros(g1,g2):
+    return g1[1] > g2[1]
+
+def checkgeneros(cancion,listageneros):
+    listageneros2 = lt.newList("ARRAY_LIST")
+    for x in range(listageneros["size"]):
+        rango = lt.getElement(listageneros,x)
+        if (float(cancion["tempo"]) <= rango[1]) and (float(cancion["tempo"]) >= rango[0]):
+            lt.addLast(listageneros2, rango)
+    return listageneros2
+
+def hashtags(song,catalogo):
+    listahashtags = lt.newList("ARRAY_LIST")
+    data = om.valueSet(catalogo["datosusuarios"])
+    for x in range(lt.size(data)):
+        listen = lt.getElement(data,x)
+        if listen["track_id"] == song["track_id"]:
+            lt.addLast(listahashtags, listen["hashtag"])
+    return listahashtags
+
+def comphashtags(h1,h2):
+    return lt.size(h1[1]) > lt.size(h2[1])
+
+def vaderprom(catalogo,hashtags):
+    vaders = 0
+    totalvaders = 0
+    data = om.valueSet(catalogo["datossentimientos"])
+    for x in range(lt.size(hashtags)):
+        tag = lt.getElement(hashtags, x)
+        for y in range(lt.size(data)):
+            feels = lt.getElement(data,y)
+            if feels["hashtag"] == tag:
+                if not feels["vader_avg"] == "":
+                    vaders += 1
+                    totalvaders += float(feels["vader_avg"])
+    if not vaders == 0:
+        return round(totalvaders/vaders,1)
+    else:
+        return None
+

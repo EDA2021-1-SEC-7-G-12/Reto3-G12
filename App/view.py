@@ -65,6 +65,9 @@ def numerotracksestudiar(catalogo, mininstrum, maxinstrum, mintempo, maxtempo):
 def tracksgeneros(catalogo,listabusqueda):
     return controller.tracksgeneros(catalogo,listabusqueda)
 
+def datoshoras(catalogo,hora_min,hora_max):
+    return controller.datoshoras(catalogo,hora_min,hora_max)
+
 def printresults(resultado):
     print("Total of unique tracks in events: " + str(resultado[0]))
     print("\n")
@@ -136,6 +139,28 @@ def printgeneros(tracksgeneros,catalogo):
             print("Artist " + str(y) + ": " + lt.getElement(datosgenero[1][2],y))
         print("\n")
 
+def printhoras(datosgoras,catalogo,hora_min,hora_max):
+    """++++++ Req No. 5 results... ++++++
+There is a total of 16629 reproductions between 07:15:00 and 09:45:00
+====================== GENRES SORTED REPRODUCTIONS ======================
+TOP 1: Metal with 4136 reps
+TOP 2: Rock with 2668 reps
+TOP 3: Pop with 2664 reps
+TOP 4: Chill-out with 2274 reps
+TOP 5: Hip-hop with 2001 reps
+TOP 6: Down-tempo with 1388 reps
+TOP 7: Reggae with 716 reps
+TOP 8: Jazz and funk with 490 reps
+TOP 9: R&b with 292 reps
+...
+The TOP GENRE is Metal with 4136 reproductions...
+========================== Metal SENTIMENT ANALYSIS =========================
+Metal has 1395 unique tracks...
+The first TOP 10 tracks are...
+TOP 1 track: 3d02f9fcad37e6bb227682761039498c with 5 hashtags and VADER = 0.6
+...
+    """
+
 
 """
 Menu principal
@@ -189,7 +214,10 @@ while True:
         tracksgeneros  = tracksgeneros(catalogo,listabusqueda)
         printgeneros(tracksgeneros,catalogo)
     elif int(inputs[0]) == 6:
-        pass
+        hora_min = input("Indique la hora y los minutos mínima en hora militar (ej: 13:00): ")
+        hora_max = input("Indique la hora y los minutos mázimos en hora militar (ej: 13:00): ")
+        datoshoras = datoshoras(catalogo,hora_min,hora_max)
+        printhoras(datoshoras,catalogo,hora_min,hora_max)
     else:
         sys.exit(0)
 sys.exit(0)

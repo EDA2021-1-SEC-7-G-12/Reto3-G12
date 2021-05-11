@@ -185,7 +185,7 @@ def keySet(bst):
         Exception
     """
     try:
-        klist = lt.newList('SINGLE_LINKED', bst['cmpfunction'])
+        klist = lt.newList("ARRAY_LIST", bst['cmpfunction'])
         klist = keySetTree(bst['root'], klist)
         return klist
     except Exception as exp:
@@ -203,7 +203,7 @@ def valueSet(bst):
         Exception
     """
     try:
-        vlist = lt.newList('SINGLE_LINKED', bst['cmpfunction'])
+        vlist = lt.newList("ARRAY_LIST", bst['cmpfunction'])
         vlist = valueSetTree(bst['root'], vlist)
         return vlist
     except Exception as exp:
